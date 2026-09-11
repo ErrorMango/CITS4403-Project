@@ -1,0 +1,15 @@
+This study investigates the effectiveness of firebreaks in containing spreading forest fires. 
+The research question is: under the condition of equal total area, 
+does a densely arranged firebreak perform better than a sparsely arranged one in reducing fire spread?
+We hypothesize that densely arranged firebreaks form more continuous barriers, 
+thereby reducing both burned area and fire propagation distance.
+The model represents the forest as a two-dimensional square grid,
+where each cell can be in one of three states: flammable forest, burning, or non-flammable.
+The non-flammable areas include burned regions and firebreaks. 
+Burning cells can ignite adjacent forest cells before transitioning to the non-flammable state. 
+The model uses synchronous updating and incorporates wind direction, allowing flames to spread more easily downwind.
+Experiments compare three scenarios—no firebreak, sparse firebreak, 
+and dense firebreak—and are run multiple times under different wind conditions. 
+Evaluation metrics include remaining forest area at fixed time steps, maximum spread distance, 
+cumulative burn ratio, and probability of fire reaching the map boundary. 
+Finally, the effects of different firebreak configurations are analyzed.
