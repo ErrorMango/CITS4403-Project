@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><title>Paired fire animation</title>
+<style>body{font:15px system-ui;margin:16px;color:#20362b;background:#f5f7f3}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:white;padding:12px;border-radius:10px}canvas{width:100%;max-width:520px;image-rendering:pixelated}button,select{padding:8px}input{width:50%}</style>
+<h2>Treatment layout: 100 steps</h2><p>First repeat only. Green: unburned · Yellow: treated · Orange: burning · Grey: burned · White: no fuel · Blue cross: ignition.</p>
+<p><button id="play">Play</button> <button id="reset">Reset</button> <input id="step" type="range" min="0" value="0"><span id="time"></span></p>
+<div class="grid"><div class="card"><h3>Gap 0 — single wide band</h3><canvas id="left" width="500" height="500"></canvas><p id="left-stats"></p></div><div class="card"><h3>Two narrow bands <select id="gap"></select></h3><canvas id="right" width="500" height="500"></canvas><p id="right-stats"></p></div></div><p id="settings"></p>
+<script>
+(()=>{
+const runs=/*RUNS*/;
+const $=id=>document.getElementById(id),pick=$('gap'),slider=$('step');
+const single=runs.find(r=>r.label.split(' / ')[0]==='single');
+const doubles=runs.filter(r=>r.label.split(' / ')[0].startsWith('gap_'));
+if(!single||!doubles.length){$('settings').textContent='This viewer requires a single-band baseline and gap layouts.';return;}
+for(const r of doubles){const o=document.createElement('option');o.textContent=r.label.split(' / ')[0].replace('gap_','Gap ');pick.appendChild(o);}
+let playing=false;slider.max=single.frames.length-1;
+function paint(id,r,t){
+ const ctx=$(id).getContext('2d'),state=new Uint8Array(r.n*r.n),s=500/r.n;
+ for(let j=0;j<=Math.min(t,r.frames.length-1);j++)for(const v of r.frames[j])state[Math.abs(v)-1]=v>0?1:2;
+ const empty=new Set(r.empty);
+ for(let i=0;i<state.length;i++){const row=Math.floor(i/r.n),col=i%r.n;ctx.fillStyle=state[i]===1?'#ef782e':state[i]===2?'#69736d':empty.has(i)?'white':r.bands.some(([c,w])=>col>=c&&col<c+w)?'#d4c779':'#39734e';ctx.fillRect(col*s,row*s,s,s);}
+ const [row,col]=r.ignition;ctx.strokeStyle='#258bff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(col*s-3,(row+.5)*s);ctx.lineTo((col+1)*s+3,(row+.5)*s);ctx.moveTo((col+.5)*s,row*s-3);ctx.lineTo((col+.5)*s,(row+1)*s+3);ctx.stroke();
+ const h=r.history[Math.min(t,r.history.length-1)];$(id+'-stats').textContent=`Fuel burned: ${h.total_burned.toFixed(2)} | Burning cells: ${h.burning_cells}`;
+}
+function draw(){const t=+slider.value;paint('left',single,t);paint('right',doubles[pick.selectedIndex],t);$('time').textContent=`Step ${t} / ${slider.max}`;$('settings').textContent=`${single.map} | Wind toward ${single.wind} | Area ${single.width}% | Ignition (${single.ignition}) | Seed ${single.seed}. Both panels share the same step and random conditions. Gap 0 is the same-area single band, not an untreated control.`;}
+pick.onchange=draw;slider.oninput=draw;
+$('reset').onclick=()=>{playing=false;$('play').textContent='Play';slider.value=0;draw();};
+$('play').onclick=()=>{playing=!playing;$('play').textContent=playing?'Pause':'Play';};
+setInterval(()=>{if(!playing)return;if(+slider.value>=+slider.max){playing=false;$('play').textContent='Play';return;}slider.value=+slider.value+1;draw();},120);
+draw();
+})();
+</script>
