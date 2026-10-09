@@ -1,4 +1,5 @@
 # CITS4403-Project
+
 Shared repository for our CITS4403 group project.
 
 # A Comparison of Fuel Break Layouts for Bushfire Control
@@ -36,10 +37,6 @@ bushfire/
 ├── requirements.txt
 └── README.md
 ```
-
-`.gitignore` excludes the local `.venv/`, caches and full `data/results/` directory.
-Keep `data/demo/` when sharing the project: the notebook reads this portable bundle.
-Do not upload the local Python environment. Old experiment outputs have been removed.
 
 ## Setup
 
@@ -106,33 +103,23 @@ Run the small model checks separately:
 python -m unittest utils.test_model
 ```
 
-Burned cells means all cells ever ignited, including cells still burning.
-The protected region is columns 55–99. Fuel consumed excludes fuel removed by treatment.
-Paired differences are double minus single; negative values favour double bands.
-Intervals use 2,000 bootstrap resamples and are not adjusted for multiple comparisons.
-SD measures variation between repeats; it is not a confidence interval.
-
 ## Data and limits
 
 See [map notes](data/maps/README.md) and [demo data](data/demo/README.md).
 Fuel values are literature-based proxies, not local measurements. Old map metadata
 includes earlier fuel assignments; the current fuel CSV is the simulation input.
-Original run hashes are retained as historical records; comment-only edits can change
-source-file hashes without changing model behaviour.
 
 Results stop at step 100 and do not prove permanent blocking. Map differences mix
 fuel and terrain. Wind and area groups use different starts, so their differences
 are not isolated causal effects. No untreated control or flying-ember mechanism is
 included in this experiment.
 
-Add both authors' names and real contributions before submission. The course's
-separate written report requires at most five A4 pages of main text, 11-point font
-and 1-inch margins. The demo notebook does not replace that format requirement.
-
 ## Report
+
 The written report is submitted separately and is not included in this repository.
 
-LaTeX sources, the report build script, source ZIP, extracted report text,
-full simulation outputs and local caches are excluded by `.gitignore`.
-They are not needed to run the model or notebook. When uploading through the
-GitHub website, exclude these files manually; `.gitignore` does not filter uploads.
+## Authors and contributions
+
+**Chao Jiang (25154863):** Model implementation, batch experiments, and report editing.
+**Zihang Jiang (25349415):** Map data processing, charts and notebook preparation.
+**Both authors:** Research question, experiment design, code testing, discussion of findings, and final review.
