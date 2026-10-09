@@ -121,5 +121,7 @@ The written report is submitted separately and is not included in this repositor
 ## Authors and contributions
 
 **Chao Jiang (25154863):** Model implementation, batch experiments, and report editing.
+
 **Zihang Jiang (25349415):** Map data processing, charts and notebook preparation.
+
 **Both authors:** Research question, experiment design, code testing, discussion of findings, and final review.
