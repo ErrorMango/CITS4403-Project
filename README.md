@@ -2,7 +2,7 @@
 
 Shared repository for our CITS4403 group project.
 
-# A Comparison of Fuel Break Layouts for Bushfire Control
+# Comparison of Fuel Break Layouts for Bushfire Control
 
 Compare one wide fuel break with two narrow breaks of the same total area.
 The experiment uses M1 and M2 fuel maps, real terrain, five wind settings,
